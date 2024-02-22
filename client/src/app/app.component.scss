@@ -1,0 +1,38 @@
+$header-size: 64px;
+
+mat-sidenav-container {
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+
+  mat-sidenav-content {
+    height: 100%;
+
+    mat-toolbar {
+      .fill {
+        flex: 1 1 auto;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+      }
+
+      a.nav-item {
+        transition: 0.5s ease;
+
+        &.brand {
+          font-size: 20px;
+        }
+        &.item-selected {
+          background-color: #0003;
+        }
+        &:hover {
+          background-color: #0004;
+        }
+      }
+    }
+  }
+}
