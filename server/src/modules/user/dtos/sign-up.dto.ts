@@ -18,10 +18,6 @@ export class SignUpDto {
   @MaxLength(22)
   lastName: string;
 
-  @IsNumber()
-  @IsPositive()
-  age: number;
-
   @IsEmail()
   email: string;
 
