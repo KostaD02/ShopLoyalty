@@ -1,5 +1,3 @@
-import { BaseProduct } from './product';
-
 export type UserType = 'standart' | 'admin';
 
 export interface User {
@@ -7,10 +5,11 @@ export interface User {
   name: string;
   lastName: string;
   email: string;
+  password: string;
   type: UserType;
   productConnectID: string;
 }
 
-export interface UserPurchasedProduct extends Omit<BaseProduct, 'price'> {
-  count: number;
-}
+export type UnwantedKeys = 'password';
+
+export type UserPayload = Omit<User, UnwantedKeys>;
