@@ -18,6 +18,7 @@ export class AuthService {
   ) {}
 
   async signUp(body: SignUpDto) {
+    console.log(body);
     const userExsists = await this.userModel.findOne({ email: body.email });
     if (userExsists) {
       throw new HttpException('Email is already in use', 409);
