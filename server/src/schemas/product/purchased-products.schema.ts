@@ -13,7 +13,7 @@ export class PurchasedProduct {
         name: { type: String },
         price: { type: Number },
         count: { type: Number },
-        _id: true,
+        _id: { type: String },
       },
     ],
     select: false,

@@ -30,4 +30,4 @@ import {
   ],
   controllers: [PurchasedProductsController, ProductController],
 })
-export class UserModule {}
+export class ProductModule {}
