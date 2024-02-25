@@ -11,7 +11,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UserPayload } from 'src/interfaces';
-import { JwtGuard, CurrentUser, CurrentUserInterceptor } from 'src/shared';
+import {
+  JwtGuard,
+  CurrentUser,
+  CurrentUserInterceptor,
+  RolesGuard,
+  Roles,
+} from 'src/shared';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import {
@@ -21,6 +27,7 @@ import {
   UpdateUserPasswordDto,
 } from '../dtos';
 import { LocalAuthGuard, RefreshJwtGuard } from './guards';
+import { UserRole } from 'src/enums';
 
 @Controller('auth')
 export class AuthController {
@@ -38,6 +45,13 @@ export class AuthController {
   @UseInterceptors(CurrentUserInterceptor)
   getUserByID(@CurrentUser() user: UserPayload, @Param('id') id: string) {
     return this.authService.getUserByID(user, id);
+  }
+
+  @Get('all_user')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  getUsers() {
+    return this.authService.getUsers();
   }
 
   @Post('sign_up')

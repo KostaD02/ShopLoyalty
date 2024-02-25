@@ -7,6 +7,7 @@ import { EncryptionService, MongooseValidatorService } from 'src/shared';
 import { SignUpDto, UpdateUserDto, UpdateUserPasswordDto } from '../dtos';
 import { UserInterface, UserPayload } from 'src/interfaces';
 import { Response } from 'express';
+import { UserRole } from 'src/enums';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,6 @@ export class AuthService {
   ) {}
 
   async signUp(body: SignUpDto) {
-    console.log(body);
     const userExsists = await this.userModel.findOne({ email: body.email });
     if (userExsists) {
       throw new HttpException('Email is already in use', 409);
@@ -32,7 +32,7 @@ export class AuthService {
       ...body,
       password: hashedPassword,
       productConnectID: '',
-      role: 'standart',
+      role: UserRole.Default,
     });
 
     return this.createPayload(user as unknown as UserInterface);
@@ -47,6 +47,13 @@ export class AuthService {
       role: user.role,
       productConnectID: user.productConnectID,
     };
+  }
+
+  async getUsers() {
+    const users = await this.userModel.find({});
+    return users.map((user) =>
+      this.createPayload(user as unknown as UserInterface),
+    );
   }
 
   async getUserByID(userPayload: UserPayload, id: string) {
@@ -184,7 +191,8 @@ export class AuthService {
       throw new HttpException(`Old password is incorrect`, 400);
     }
 
-    user.password = body.newPassword;
+    const hashedPassword = await this.encryptionService.hash(body.newPassword);
+    user.password = hashedPassword;
     await user.save();
 
     return this.signIn(

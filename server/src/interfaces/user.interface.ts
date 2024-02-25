@@ -1,4 +1,4 @@
-export type UserType = 'standart' | 'admin';
+import { UserRole } from 'src/enums';
 
 export interface UserInterface {
   _id: string;
@@ -6,7 +6,7 @@ export interface UserInterface {
   lastName: string;
   email: string;
   password: string;
-  role: UserType;
+  role: UserRole;
   productConnectID: string;
 }
 

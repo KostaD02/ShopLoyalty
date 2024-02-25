@@ -21,7 +21,11 @@ export class HttpExceptionsFilter implements ExceptionFilter {
       const expectionMessages = exception.getResponse() as {
         message: string[];
       };
-      messages.push(...expectionMessages.message);
+      if (typeof expectionMessages.message === 'object') {
+        messages.push(...expectionMessages.message);
+      } else {
+        messages.push(expectionMessages.message);
+      }
     }
 
     response.status(status).json({
