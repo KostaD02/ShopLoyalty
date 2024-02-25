@@ -17,6 +17,11 @@ export const routes: Routes = [
     title: 'Contact',
   },
   {
+    path: 'auth',
+    title: 'Auth',
+    loadComponent: () => import('./features/auth/auth.component'),
+  },
+  {
     path: '404',
     loadComponent: () => import('./features/not-found/not-found.component'),
     title: 'Page not found',

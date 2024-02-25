@@ -13,4 +13,8 @@ export const HEADER_NAVIGATION: Navigation[] = [
     title: 'Contact',
     path: 'contact',
   },
+  {
+    title: 'Auth',
+    path: 'auth',
+  },
 ];
