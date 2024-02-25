@@ -10,7 +10,7 @@ export class User {
   @Prop() lastName: string;
   @Prop() email: string;
   @Prop() password: string;
-  @Prop() type: UserType;
+  @Prop() role: UserType;
   @Prop() productConnectID: string;
 }
 

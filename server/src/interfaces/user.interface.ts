@@ -1,15 +1,15 @@
 export type UserType = 'standart' | 'admin';
 
-export interface User {
+export interface UserInterface {
   _id: string;
   name: string;
   lastName: string;
   email: string;
   password: string;
-  type: UserType;
+  role: UserType;
   productConnectID: string;
 }
 
 export type UnwantedKeys = 'password';
 
-export type UserPayload = Omit<User, UnwantedKeys>;
+export type UserPayload = Omit<UserInterface, UnwantedKeys>;

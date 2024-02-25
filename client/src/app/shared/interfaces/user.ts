@@ -7,7 +7,7 @@ export interface User {
   name: string;
   lastName: string;
   email: string;
-  type: UserType;
+  role: UserType;
   productConnectID: string;
 }
 
