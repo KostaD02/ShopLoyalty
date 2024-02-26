@@ -11,11 +11,22 @@ import {
   LocalStrategy,
   RefreshJwtStrategy,
 } from './auth/strategies';
+import {
+  Product,
+  ProductSchema,
+  PurchasedProduct,
+  PurchasedProductSchema,
+} from 'src/schemas/product';
+import { PurchasedProductsService } from '../product';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Product.name, schema: ProductSchema },
+      { name: PurchasedProduct.name, schema: PurchasedProductSchema },
+    ]),
     JwtModule.register({
       secret: `${process.env.JWT_SECRET}`,
       signOptions: { expiresIn: `${process.env.JWT_EXPIRES_IN || '1'}h` },
@@ -24,6 +35,7 @@ import {
   providers: [
     RefreshJwtGuard,
     MongooseValidatorService,
+    PurchasedProductsService,
     EncryptionService,
     AuthService,
     LocalStrategy,

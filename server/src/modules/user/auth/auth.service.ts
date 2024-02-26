@@ -8,11 +8,13 @@ import { SignUpDto, UpdateUserDto, UpdateUserPasswordDto } from '../dtos';
 import { UserInterface, UserPayload } from 'src/interfaces';
 import { Response } from 'express';
 import { UserRole } from 'src/enums';
+import { PurchasedProductsService } from 'src/modules/product';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private purchasedProduct: PurchasedProductsService,
     private encryptionService: EncryptionService,
     private jwtService: JwtService,
     private mongooseValidator: MongooseValidatorService,
@@ -26,14 +28,16 @@ export class AuthService {
 
     const hashedPassword = await this.encryptionService.hash(body.password);
 
-    // TODO: Create product connection
-
     const user = await this.userModel.create({
       ...body,
       password: hashedPassword,
       productConnectID: '',
       role: UserRole.Default,
     });
+
+    const connection = await this.purchasedProduct.createConnection(user.id);
+    user.productConnectID = connection.id;
+    user.save();
 
     return this.createPayload(user as unknown as UserInterface);
   }
