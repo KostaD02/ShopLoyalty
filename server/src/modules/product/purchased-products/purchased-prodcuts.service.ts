@@ -33,4 +33,32 @@ export class PurchasedProductsService {
 
     return connection;
   }
+
+  async getConnectionByUserId(id: string) {
+    this.mongooseValidator.isValidObjectId(id);
+
+    const connection = await this.purchasedProdutModel.findOne({
+      userId: id,
+    });
+
+    if (!connection) {
+      throw new HttpException("Connection doesn't exists", 400);
+    }
+
+    return connection;
+  }
+
+  async getConnectionByConnectionId(id: string) {
+    this.mongooseValidator.isValidObjectId(id);
+
+    const connection = await this.purchasedProdutModel.findOne({
+      _id: id,
+    });
+
+    if (!connection) {
+      throw new HttpException("Connection doesn't exists", 400);
+    }
+
+    return connection;
+  }
 }
