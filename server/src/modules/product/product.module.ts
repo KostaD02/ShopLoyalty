@@ -15,13 +15,21 @@ import {
   PurchasedProductsService,
 } from './purchased-products';
 
+import { User, UserSchema } from 'src/schemas';
+import { JwtModule } from '@nestjs/jwt';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
       { name: Product.name, schema: ProductSchema },
       { name: PurchasedProduct.name, schema: PurchasedProductSchema },
     ]),
+    JwtModule.register({
+      secret: `${process.env.JWT_SECRET}`,
+      signOptions: { expiresIn: `${process.env.JWT_EXPIRES_IN || '1'}h` },
+    }),
   ],
   providers: [
     MongooseValidatorService,
