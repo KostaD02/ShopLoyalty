@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { PurchasedProducts } from 'src/interfaces';
+import { CartProducts } from 'src/interfaces';
 
 export type CartDocument = HydratedDocument<Cart>;
 
@@ -14,12 +14,13 @@ export class Cart {
         name: { type: String },
         price: { type: Number },
         count: { type: Number },
+        discountPercentage: { type: Number },
         _id: { type: String },
       },
     ],
     select: true,
   })
-  products: PurchasedProducts[];
+  products: CartProducts[];
 }
 
 export const CartSchema = SchemaFactory.createForClass(Cart);

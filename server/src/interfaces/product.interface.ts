@@ -19,6 +19,10 @@ export interface PurchasedProducts extends BaseProduct {
   count: number;
 }
 
+export interface CartProducts extends PurchasedProducts {
+  discountPercentage: number;
+}
+
 export interface UserPurchasedProduct {
   _id: string;
   userId: string;
