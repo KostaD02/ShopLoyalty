@@ -5,7 +5,7 @@ export interface BaseProduct {
 }
 
 export interface ProductDiscount {
-  count: [number, number];
+  range: [number, number];
   discountPercentage: number;
 }
 

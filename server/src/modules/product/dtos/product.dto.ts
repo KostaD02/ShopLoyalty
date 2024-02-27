@@ -15,5 +15,5 @@ export class ProductDto {
   imageSrc: string;
 
   @IsArray()
-  products: ProductDiscount[];
+  productDiscount: ProductDiscount[];
 }

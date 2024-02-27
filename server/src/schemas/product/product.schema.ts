@@ -18,7 +18,7 @@ export class Product {
         _id: false,
       },
     ],
-    select: false,
+    select: true,
   })
   productDiscount: ProductDiscount[];
 }

@@ -3,7 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product, ProductDocument } from 'src/schemas/product';
 import { MongooseValidatorService } from 'src/shared';
-import { ProductDto, UpdateProductDto } from '../dtos';
+import {
+  ProductDto,
+  UpdateProductDiscountsDto,
+  UpdateProductDto,
+} from '../dtos';
 
 @Injectable()
 export class ProductService {
@@ -41,6 +45,7 @@ export class ProductService {
 
     const product = await this.produtModel.create({
       ...productDto,
+      productDiscount: productDto.productDiscount || [],
     });
 
     return product;
@@ -68,5 +73,78 @@ export class ProductService {
     });
 
     return updatedUser;
+  }
+
+  async updateProductDiscounts(updateProducts: UpdateProductDiscountsDto) {
+    if (updateProducts.productDiscount.length <= 0) {
+      throw new HttpException('Nothing to add', 400);
+    }
+
+    const product = await this.produtModel.findOne({ _id: updateProducts._id });
+
+    if (!product) {
+      throw new HttpException('Product not found', 404);
+    }
+
+    updateProducts.productDiscount.forEach((product) => {
+      if (product.range.length >= 3 || product.range.length <= 1) {
+        throw new HttpException(
+          'Range should be exact 2 element [number, number]',
+          400,
+        );
+      }
+
+      product.range.forEach((range) => {
+        if (range < 0) {
+          throw new HttpException("Range can't be negative number", 400);
+        }
+      });
+    });
+
+    if (!product.productDiscount) {
+      product.productDiscount = [];
+    }
+
+    const products = product.productDiscount
+      .concat(...updateProducts.productDiscount)
+      .sort((a, b) => a.range[0] - b.range[0]);
+
+    for (let i = 1; i < products.length; i++) {
+      const prevItem = products[i - 1];
+      const currentItem = products[i];
+
+      if (prevItem.range[1] >= currentItem.range[0]) {
+        throw new HttpException('Overlap detected in count ranges', 400);
+      }
+
+      if (prevItem.discountPercentage > currentItem.discountPercentage) {
+        throw new HttpException(
+          'Discount percentage is greater in lower range',
+          400,
+        );
+      }
+    }
+
+    product.productDiscount = products;
+
+    await product.save();
+
+    return product;
+  }
+
+  async deleteProductById(id: string) {
+    this.mongooseValidator.isValidObjectId(id);
+
+    const user = await this.produtModel.findOneAndDelete({
+      _id: id,
+    });
+
+    if (!user) {
+      throw new HttpException('Product not found', 404);
+    }
+
+    return {
+      acknowledged: true,
+    };
   }
 }

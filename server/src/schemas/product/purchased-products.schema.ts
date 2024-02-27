@@ -16,7 +16,7 @@ export class PurchasedProduct {
         _id: { type: String },
       },
     ],
-    select: false,
+    select: true,
   })
   products: PurchasedProducts[];
 }

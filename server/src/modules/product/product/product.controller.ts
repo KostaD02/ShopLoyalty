@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -8,7 +9,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { ProductDto, UpdateProductDto } from '../dtos';
+import {
+  ProductDto,
+  UpdateProductDto,
+  UpdateProductDiscountsDto,
+} from '../dtos';
 import { UserRole } from 'src/enums';
 import { JwtGuard, RolesGuard, Roles } from 'src/shared';
 
@@ -36,7 +41,25 @@ export class ProductController {
   @Patch('update')
   @UseGuards(JwtGuard, RolesGuard)
   @Roles(UserRole.Admin)
-  updateProduict(@Body() updateProductDto: UpdateProductDto) {
+  updateProduct(@Body() updateProductDto: UpdateProductDto) {
     return this.productService.updateProduct(updateProductDto);
+  }
+
+  @Patch('update_discounts')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  updateProductDiscounts(
+    @Body() updateProductDiscountsDto: UpdateProductDiscountsDto,
+  ) {
+    return this.productService.updateProductDiscounts(
+      updateProductDiscountsDto,
+    );
+  }
+
+  @Delete('delete/id/:id')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  deleteProductById(@Param('id') id: string) {
+    return this.productService.deleteProductById(id);
   }
 }
