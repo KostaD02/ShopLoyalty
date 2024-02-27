@@ -1,25 +1,18 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { CartController } from './cart.controller';
+import { CartService } from './cart.service';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas';
-import { RefreshJwtGuard } from './auth/guards';
-import { EncryptionService, MongooseValidatorService } from 'src/shared';
-import { AuthController, AuthService } from './auth';
-import {
-  JwtStrategy,
-  LocalStrategy,
-  RefreshJwtStrategy,
-} from './auth/strategies';
+import { Cart, CartSchema } from 'src/schemas/cart';
 import {
   Product,
   ProductSchema,
   PurchasedProduct,
   PurchasedProductSchema,
 } from 'src/schemas/product';
-import { PurchasedProductsService } from '../product';
-import { Cart, CartSchema } from 'src/schemas/cart';
-import { CartService } from '../cart';
+import { MongooseValidatorService } from 'src/shared';
 
 @Module({
   imports: [
@@ -35,17 +28,7 @@ import { CartService } from '../cart';
       signOptions: { expiresIn: `${process.env.JWT_EXPIRES_IN || '1'}h` },
     }),
   ],
-  providers: [
-    RefreshJwtGuard,
-    MongooseValidatorService,
-    PurchasedProductsService,
-    CartService,
-    EncryptionService,
-    AuthService,
-    LocalStrategy,
-    JwtStrategy,
-    RefreshJwtStrategy,
-  ],
-  controllers: [AuthController],
+  controllers: [CartController],
+  providers: [CartService, MongooseValidatorService],
 })
-export class UserModule {}
+export class CartModule {}

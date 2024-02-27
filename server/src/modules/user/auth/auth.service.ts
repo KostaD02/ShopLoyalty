@@ -9,15 +9,25 @@ import { UserInterface, UserPayload } from 'src/interfaces';
 import { Response } from 'express';
 import { UserRole } from 'src/enums';
 import { PurchasedProductsService } from 'src/modules/product';
+import {
+  PurchasedProduct,
+  PurchasedProductDocument,
+} from 'src/schemas/product';
+import { CartService } from 'src/modules/cart';
+import { Cart, CartDocument } from 'src/schemas/cart';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(PurchasedProduct.name)
+    private purchasedProductModel: Model<PurchasedProductDocument>,
+    @InjectModel(Cart.name) private cartModel: Model<CartDocument>,
     private purchasedProduct: PurchasedProductsService,
     private encryptionService: EncryptionService,
     private jwtService: JwtService,
     private mongooseValidator: MongooseValidatorService,
+    private cartService: CartService,
   ) {}
 
   async signUp(body: SignUpDto) {
@@ -32,12 +42,16 @@ export class AuthService {
       ...body,
       password: hashedPassword,
       productConnectID: '',
+      cartID: '',
       role: UserRole.Default,
     });
 
     const connection = await this.purchasedProduct.createConnection(user.id);
+    const cart = await this.cartService.createCart(user.id);
     user.productConnectID = connection.id;
-    user.save();
+    user.cartID = cart.id;
+
+    await user.save();
 
     return this.createPayload(user as unknown as UserInterface);
   }
@@ -49,6 +63,7 @@ export class AuthService {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
+      cartID: user.cartID,
       productConnectID: user.productConnectID,
     };
   }
@@ -149,6 +164,9 @@ export class AuthService {
     if (!user) {
       throw new HttpException('User already deleted', 400);
     }
+
+    await this.purchasedProductModel.findOneAndDelete({ userId: user.id });
+    await this.cartModel.findOneAndDelete({ userId: user.id });
 
     return {
       acknowledged: true,

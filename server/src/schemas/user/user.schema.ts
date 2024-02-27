@@ -12,6 +12,7 @@ export class User {
   @Prop() password: string;
   @Prop() role: UserRole;
   @Prop() productConnectID: string;
+  @Prop() cartID: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

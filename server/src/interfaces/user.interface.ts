@@ -8,6 +8,7 @@ export interface UserInterface {
   password: string;
   role: UserRole;
   productConnectID: string;
+  cartID: string;
 }
 
 export type UnwantedKeys = 'password';
