@@ -1,6 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { PurchasedProductsService } from './purchased-prodcuts.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Purchase Connection')
 @Controller('purchased_products')
 export class PurchasedProductsController {
   constructor(private purchasedProductsService: PurchasedProductsService) {}

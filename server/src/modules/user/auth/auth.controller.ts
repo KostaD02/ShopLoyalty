@@ -28,7 +28,9 @@ import {
 } from '../dtos';
 import { LocalAuthGuard, RefreshJwtGuard } from './guards';
 import { UserRole } from 'src/enums';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

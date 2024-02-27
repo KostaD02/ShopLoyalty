@@ -16,7 +16,9 @@ import {
 } from '../dtos';
 import { UserRole } from 'src/enums';
 import { JwtGuard, RolesGuard, Roles } from 'src/shared';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Product')
 @Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}

@@ -13,7 +13,9 @@ import { CartService } from './cart.service';
 import { UserPayload } from 'src/interfaces';
 import { JwtGuard, CurrentUserInterceptor, CurrentUser } from 'src/shared';
 import { CartDto } from './dtos';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Cart')
 @Controller('cart')
 export class CartController {
   constructor(private cartService: CartService) {}
