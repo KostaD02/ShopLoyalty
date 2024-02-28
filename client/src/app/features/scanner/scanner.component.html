@@ -1,5 +1,15 @@
 <section>
+  @if (!(isAgreed$ | async)) {
+    <p>We need camera permission to use it for scanner</p>
+  }
   <div class="scanner">
-    @if (isBrowser) {}
+    @if (isBrowser) {
+      <div class="camera">
+        <zxing-scanner
+          (permissionResponse)="onPermission($event)"
+          (scanSuccess)="onSuccess($event)"
+        ></zxing-scanner>
+      </div>
+    }
   </div>
 </section>
