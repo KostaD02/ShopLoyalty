@@ -1,1 +1,164 @@
-<p>auth works!</p>
+<section class="wrapper">
+  <mat-tab-group
+    dynamicHeight
+    (selectedTabChange)="reset($event.index)"
+    [selectedIndex]="tabIndex"
+  >
+    <mat-tab label="Sign in">
+      <form #signInForm="ngForm" [formGroup]="loginForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            placeholder="Ex. kosta@example.com"
+            formControlName="email"
+          />
+          @if (getLoginFormValue("email", "required")) {
+            <mat-error> Email required </mat-error>
+          }
+          @if (getLoginFormValue("email", "email")) {
+            <mat-error> Email incorrect </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            [type]="hidePasswordSignIn ? 'password' : 'text'"
+            matInput
+            placeholder="Strong password"
+            formControlName="password"
+          />
+          <mat-icon
+            color="primary"
+            matSuffix
+            (click)="hidePasswordSignIn = !hidePasswordSignIn"
+            >{{
+              hidePasswordSignIn ? "visibility_off" : "visibility"
+            }}</mat-icon
+          >
+          @if (getLoginFormValue("password", "required")) {
+            <mat-error> Password required </mat-error>
+          }
+        </mat-form-field>
+        <button
+          [disabled]="!loginForm.valid"
+          (click)="login()"
+          mat-raised-button
+          color="primary"
+        >
+          Login
+        </button>
+      </form>
+    </mat-tab>
+    <mat-tab label="Sign up">
+      <form #signUpForm="ngForm" [formGroup]="registrationForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Ex. Konstantine"
+            formControlName="name"
+          />
+          @if (getRegisterFormValue("name", "required")) {
+            <mat-error> Name required </mat-error>
+          }
+          @if (getRegisterFormValue("name", "minlength")) {
+            <mat-error> Minimum 2 char </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Last name</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Ex. Datunishvili"
+            formControlName="lastName"
+          />
+          @if (getRegisterFormValue("lastName", "required")) {
+            <mat-error> Last name required </mat-error>
+          }
+          @if (getRegisterFormValue("lastName", "minlength")) {
+            <mat-error> Minimum 2 char </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            placeholder="Ex. kosta@example.com"
+            formControlName="email"
+          />
+          @if (getRegisterFormValue("email", "required")) {
+            <mat-error> Email required </mat-error>
+          }
+          @if (getRegisterFormValue("email", "email")) {
+            <mat-error> Email incorrect </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            [type]="hidePasswordSignIn ? 'password' : 'text'"
+            matInput
+            placeholder="Strong password"
+            formControlName="password"
+          />
+          <mat-icon
+            color="primary"
+            matSuffix
+            (click)="hidePasswordSignIn = !hidePasswordSignIn"
+            >{{
+              hidePasswordSignIn ? "visibility_off" : "visibility"
+            }}</mat-icon
+          >
+          @if (getRegisterFormValue("password", "required")) {
+            <mat-error> Password required </mat-error>
+          }
+          @if (getRegisterFormValue("password", "minlength")) {
+            <mat-error> Minimum 8 char </mat-error>
+          }
+          @if (getRegisterFormValue("password", "maxlength")) {
+            <mat-error> Maximum 22 char </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Repeat password</mat-label>
+          <input
+            [type]="hidePasswordSignIn ? 'password' : 'text'"
+            matInput
+            placeholder="Same password"
+            formControlName="repeatPassword"
+          />
+          <mat-icon
+            color="primary"
+            matSuffix
+            (click)="hidePasswordSignIn = !hidePasswordSignIn"
+            >{{
+              hidePasswordSignIn ? "visibility_off" : "visibility"
+            }}</mat-icon
+          >
+          @if (
+            getRegisterFormValue("repeatPassword", "required") &&
+            !getRegisterFormValue("repeatPassword", "matchError")
+          ) {
+            <mat-error> Password required </mat-error>
+          }
+          @if (getRegisterFormValue("repeatPassword", "matchError")) {
+            <mat-error> Password should match </mat-error>
+          }
+        </mat-form-field>
+        <button
+          (click)="register()"
+          [disabled]="!signUpForm.valid"
+          mat-raised-button
+          color="primary"
+        >
+          Register
+        </button>
+      </form>
+    </mat-tab>
+  </mat-tab-group>
+</section>

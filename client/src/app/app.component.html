@@ -9,7 +9,11 @@
     <mat-toolbar color="primary">Navigation</mat-toolbar>
     <mat-nav-list>
       @for (navigation of headerNavigation; track navigation) {
-        <a mat-list-item [routerLink]="navigation.path">
+        <a
+          mat-list-item
+          [routerLink]="navigation.path"
+          (click)="drawer.toggle()"
+        >
           {{ navigation.title }}
         </a>
       }
