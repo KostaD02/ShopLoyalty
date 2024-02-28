@@ -6,6 +6,10 @@ export const HEADER_NAVIGATION: Navigation[] = [
     path: '',
   },
   {
+    title: 'Scanner',
+    path: 'scanner',
+  },
+  {
     title: 'About us',
     path: 'about-us',
   },

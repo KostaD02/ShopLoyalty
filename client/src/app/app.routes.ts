@@ -7,6 +7,11 @@ export const routes: Routes = [
     title: 'Home',
   },
   {
+    path: 'scanner',
+    loadComponent: () => import('./features/scanner/scanner.component'),
+    title: 'Scan QR code',
+  },
+  {
     path: 'about-us',
     loadComponent: () => import('./features/about-us/about-us.component'),
     title: 'About us',

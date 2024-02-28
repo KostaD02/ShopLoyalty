@@ -1,5 +1,4 @@
 import { UserRole } from '@app-shared/enums';
-import { BaseProduct } from './product';
 
 export interface User {
   _id: string;
@@ -8,8 +7,5 @@ export interface User {
   email: string;
   role: UserRole;
   productConnectID: string;
-}
-
-export interface UserPurchasedProduct extends Omit<BaseProduct, 'price'> {
-  count: number;
+  cartID: string;
 }
