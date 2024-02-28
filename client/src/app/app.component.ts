@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { HEADER_NAVIGATION } from '@app-shared/consts';
+import { AuthService } from '@app-shared/services';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ import { HEADER_NAVIGATION } from '@app-shared/consts';
 })
 export class AppComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly authService = inject(AuthService);
 
   readonly headerNavigation = HEADER_NAVIGATION;
   readonly isHandset$: Observable<boolean> = this.breakpointObserver

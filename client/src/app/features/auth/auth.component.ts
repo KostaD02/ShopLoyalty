@@ -37,8 +37,11 @@ export default class AuthComponent {
   tabIndex = 0;
 
   readonly loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required),
+    email: new FormControl('kdautinishvili@gmail.com', [
+      Validators.required,
+      Validators.email,
+    ]),
+    password: new FormControl('testdev22K!', Validators.required),
   });
 
   readonly registrationForm = new FormGroup({

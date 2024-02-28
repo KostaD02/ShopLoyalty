@@ -136,6 +136,9 @@ export class AuthService {
       refreshToken = response.req.body.refresh_token;
     }
     if (!refreshToken) {
+      refreshToken = response.req.headers['refresh_token'] as string;
+    }
+    if (!refreshToken) {
       throw new HttpException('Refresh token not found', 400);
     }
     const data = this.jwtService.decode(refreshToken) as UserPayload;
