@@ -1,1 +1,31 @@
-<p>admin works!</p>
+<section class="wrapper">
+  <button mat-raised-button color="primary">Generate QR code</button>
+  @if (productsStream$ | async; as products) {
+    <section class="products">
+      @for (product of products; track product._id) {
+        <mat-card class="card">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{ product.name }}</mat-card-title>
+          </mat-card-header>
+          <img
+            mat-card-image
+            [src]="product.imageSrc"
+            [alt]="product.name + ' image'"
+          />
+          <mat-card-content>
+            <p>
+              {{ product.description }}
+            </p>
+            <mat-divider></mat-divider>
+            <p>{{ product.price }} GEL</p>
+          </mat-card-content>
+          <mat-card-actions class="actions">
+            <button mat-raised-button color="warn">Edit</button>
+            <button mat-raised-button color="primary">Generate QR</button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </section>
+  }
+</section>

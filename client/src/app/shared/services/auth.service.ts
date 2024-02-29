@@ -11,7 +11,7 @@ import { LocalStorageKeys, UserRole } from '@app-shared/enums';
 import { isPlatformBrowser } from '@angular/common';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, catchError, filter, of, take, tap } from 'rxjs';
+import { BehaviorSubject, catchError, filter, of, tap } from 'rxjs';
 
 import { BACKEND_ENDPOINT } from '@app-shared/consts';
 import { JwtResponse, User } from '@app-shared/interfaces';
