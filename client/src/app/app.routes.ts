@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { canAuth } from '@app-shared/services';
 
 export const routes: Routes = [
   {

@@ -34,6 +34,8 @@ export class AppComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly authService = inject(AuthService);
 
+  user$ = this.authService.userStream$;
+
   readonly headerNavigation = HEADER_NAVIGATION;
   readonly isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -41,4 +43,8 @@ export class AppComponent {
       map((result) => result.matches),
       shareReplay(),
     );
+
+  logOut() {
+    this.authService.logOut();
+  }
 }

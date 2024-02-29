@@ -46,6 +46,21 @@
               {{ navigation.title }}
             </a>
           }
+          @if (user$ | async; as user) {
+            <a mat-button class="nav-item" routerLink="/" (click)="logOut()">
+              Log out
+            </a>
+          } @else {
+            <a
+              mat-button
+              class="nav-item"
+              routerLinkActive="item-selected"
+              routerLink="/auth"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              Auth
+            </a>
+          }
         </nav>
       }
     </mat-toolbar>

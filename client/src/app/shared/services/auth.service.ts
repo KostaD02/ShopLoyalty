@@ -1,7 +1,13 @@
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NavigationEnd, Router } from '@angular/router';
-import { LocalStorageKeys } from '@app-shared/enums';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  NavigationEnd,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
+import { LocalStorageKeys, UserRole } from '@app-shared/enums';
 import { isPlatformBrowser } from '@angular/common';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -19,6 +25,7 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly sweetAlert = inject(SweetAlertService);
   private readonly jwtHelperSerivce = inject(JwtHelperService);
+  private readonly ngZone = inject(NgZone);
   private readonly platform = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platform);
   private readonly BACKEND_ENDPOINT = BACKEND_ENDPOINT;
@@ -48,9 +55,12 @@ export class AuthService {
       )
       .subscribe();
     if (this.isBrowser) {
-      setInterval(() => {
-        this.checkUser();
-      }, 300000);
+      this.ngZone.runOutsideAngular(() => {
+        // ? Becouse of NG0506 (https://angular.io/errors/NG0506)
+        setInterval(() => {
+          this.checkUser();
+        }, 300000);
+      });
     }
   }
 
@@ -80,6 +90,7 @@ export class AuthService {
             LocalStorageKeys.REFRESH_TOKEN,
             response.refresh_token,
           );
+          this.user$.next(this.decodeToken(response.access_token));
           this.router.navigateByUrl('/');
         }),
       );
@@ -90,7 +101,7 @@ export class AuthService {
       return;
     }
 
-    if (!this.refreshToken) {
+    if (!this.refreshToken || !this.accessToken) {
       this.removeTokens();
       return;
     }
@@ -110,6 +121,7 @@ export class AuthService {
         }),
         catchError((err) => {
           this.removeTokens();
+          this.router.navigateByUrl('/');
           return of(false);
         }),
       )
@@ -157,8 +169,84 @@ export class AuthService {
     return this.jwtHelperSerivce.decodeToken(token);
   }
 
+  logOut() {
+    this.removeTokens();
+    this.sweetAlert.displayToast('Log outed', 'success', 'green');
+    this.user$.next(null);
+  }
+
   removeTokens() {
     localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN);
     localStorage.removeItem(LocalStorageKeys.REFRESH_TOKEN);
   }
+
+  canActivate() {
+    if (this.isTokenExpired()) {
+      this.router.navigateByUrl('/auth');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  canAuth() {
+    if (this.isBrowser) {
+      const accessToken = this.accessToken;
+      const refreshToken = this.refreshToken;
+      if (accessToken || refreshToken) {
+        if (!refreshToken || !accessToken) {
+          this.removeTokens();
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    }
+    return true;
+  }
+
+  canActivateAdmin() {
+    const token = this.accessToken;
+    if (this.isTokenExpired() || !token) {
+      this.router.navigateByUrl('/auth');
+      return false;
+    } else {
+      const decoded = this.decodeToken(token);
+      if (decoded?.role === UserRole.Admin) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  redirectGuard() {
+    if (this.isBrowser) {
+      return this.router.parseUrl('/auth');
+    }
+    return true;
+  }
 }
+
+export const canActivate: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  return inject(AuthService).canActivate();
+};
+
+export const canActivateAdmin: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  return inject(AuthService).canActivateAdmin();
+};
+
+export const canAuth: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  return inject(AuthService).canAuth();
+};
