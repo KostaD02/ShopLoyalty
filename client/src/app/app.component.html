@@ -17,9 +17,38 @@
           {{ navigation.title }}
         </a>
       }
+      @if (user$ | async; as user) {
+        @if (user.role === userRole.Admin) {
+          <a mat-list-item routerLink="/admin" (click)="drawer.toggle()">
+            Admin
+          </a>
+        }
+        @for (navigation of afterAuthNavigation; track navigation) {
+          <a
+            mat-list-item
+            [routerLink]="navigation.path"
+            (click)="drawer.toggle()"
+          >
+            {{ navigation.title }}
+          </a>
+        }
+        <a mat-list-item routerLink="/" (click)="logOut(); drawer.toggle()">
+          Log out
+        </a>
+      } @else {
+        @for (navigation of beforeAuthNavigation; track navigation) {
+          <a
+            mat-list-item
+            [routerLink]="navigation.path"
+            (click)="drawer.toggle()"
+          >
+            {{ navigation.title }}
+          </a>
+        }
+      }
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content ngSkipHydration>
     <mat-toolbar color="primary">
       @if (isHandset$ | async) {
         <button
@@ -47,19 +76,43 @@
             </a>
           }
           @if (user$ | async; as user) {
+            @if (user.role === userRole.Admin) {
+              <a
+                mat-button
+                class="nav-item"
+                routerLinkActive="item-selected"
+                routerLink="/admin"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                Admin
+              </a>
+            }
+            @for (navigation of afterAuthNavigation; track navigation) {
+              <a
+                mat-button
+                class="nav-item"
+                routerLinkActive="item-selected"
+                [routerLink]="navigation.path"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                {{ navigation.title }}
+              </a>
+            }
             <a mat-button class="nav-item" routerLink="/" (click)="logOut()">
               Log out
             </a>
           } @else {
-            <a
-              mat-button
-              class="nav-item"
-              routerLinkActive="item-selected"
-              routerLink="/auth"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              Auth
-            </a>
+            @for (navigation of beforeAuthNavigation; track navigation) {
+              <a
+                mat-button
+                class="nav-item"
+                routerLinkActive="item-selected"
+                [routerLink]="navigation.path"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                {{ navigation.title }}
+              </a>
+            }
           }
         </nav>
       }

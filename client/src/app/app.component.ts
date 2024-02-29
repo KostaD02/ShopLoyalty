@@ -9,8 +9,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { HEADER_NAVIGATION } from '@app-shared/consts';
+import {
+  AFTER_AUTH_NAVIGATION,
+  BEFORE_AUTH_NAVIGATION,
+  DEFAULT_HEADER_NAVIGATION,
+} from '@app-shared/consts';
 import { AuthService } from '@app-shared/services';
+import { UserRole } from '@app-shared/enums';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +41,11 @@ export class AppComponent {
 
   user$ = this.authService.userStream$;
 
-  readonly headerNavigation = HEADER_NAVIGATION;
+  readonly userRole = UserRole;
+  readonly headerNavigation = DEFAULT_HEADER_NAVIGATION;
+  readonly afterAuthNavigation = AFTER_AUTH_NAVIGATION;
+  readonly beforeAuthNavigation = BEFORE_AUTH_NAVIGATION;
+
   readonly isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
