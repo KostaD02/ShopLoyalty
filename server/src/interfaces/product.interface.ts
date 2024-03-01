@@ -12,7 +12,7 @@ export interface ProductDiscount {
 export interface Product extends BaseProduct {
   imageSrc: string;
   description: string;
-  productDiscounts: ProductDiscount[];
+  productDiscount: ProductDiscount[];
 }
 
 export interface PurchasedProducts extends BaseProduct {

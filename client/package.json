@@ -42,6 +42,7 @@
     "@zxing/library": "^0.20.0",
     "@zxing/ngx-scanner": "^17.0.1",
     "express": "^4.18.2",
+    "ng-qrcode": "^17.0.0",
     "ngx-cube-loader": "^1.0.1",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.10.5",

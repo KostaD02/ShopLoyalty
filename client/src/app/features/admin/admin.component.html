@@ -1,19 +1,31 @@
 <section class="wrapper">
-  <button mat-raised-button color="primary">Generate QR code</button>
+  <div class="buttons">
+    <button mat-raised-button color="warn" (click)="addProduct()">
+      Add product
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="showModalForGeneration()"
+    >
+      Generate QR for product
+    </button>
+  </div>
   @if (productsStream$ | async; as products) {
     <section class="products">
       @for (product of products; track product._id) {
         <mat-card class="card">
           <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>{{ product.name }}</mat-card-title>
           </mat-card-header>
+          <mat-divider></mat-divider>
           <img
             mat-card-image
             [src]="product.imageSrc"
             [alt]="product.name + ' image'"
           />
           <mat-card-content>
+            <mat-divider></mat-divider>
             <p>
               {{ product.description }}
             </p>
@@ -21,8 +33,17 @@
             <p>{{ product.price }} GEL</p>
           </mat-card-content>
           <mat-card-actions class="actions">
-            <button mat-raised-button color="warn">Edit</button>
-            <button mat-raised-button color="primary">Generate QR</button>
+            <button mat-button (click)="showInfo(product)">Info</button>
+            <button mat-button color="warn" (click)="editInfo(product)">
+              Edit
+            </button>
+            <button
+              mat-button
+              color="primary"
+              (click)="generateQrCode(product)"
+            >
+              Generate QR
+            </button>
           </mat-card-actions>
         </mat-card>
       }

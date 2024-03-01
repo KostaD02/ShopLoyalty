@@ -5,14 +5,14 @@ export interface BaseProduct {
 }
 
 export interface ProductDiscount {
-  count: [number, number];
+  range: [number, number];
   discountPercentage: number;
 }
 
 export interface Product extends BaseProduct {
   imageSrc: string;
   description: string;
-  productDiscounts: ProductDiscount[];
+  productDiscount: ProductDiscount[];
 }
 
 export interface PurchasedProducts extends BaseProduct {

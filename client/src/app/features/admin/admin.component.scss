@@ -5,6 +5,13 @@ section.wrapper {
   place-items: center;
   padding: 10px 0;
 
+  div.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
   section.products {
     display: flex;
     justify-content: center;
@@ -15,7 +22,23 @@ section.wrapper {
     .card {
       max-width: 400px;
 
+      mat-card-title {
+        margin-bottom: 12px;
+      }
+
+      img {
+        height: 200px;
+        object-fit: contain;
+        padding: 5px 0;
+      }
+
+      p {
+        text-align: center;
+        margin: 12px 0;
+      }
+
       .actions {
+        justify-content: center;
         gap: 10px;
       }
     }
