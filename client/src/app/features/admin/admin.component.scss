@@ -12,6 +12,15 @@ section.wrapper {
     gap: 10px;
   }
 
+  section.filter {
+    width: 100%;
+    max-width: 800px;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
   section.products {
     display: flex;
     justify-content: center;

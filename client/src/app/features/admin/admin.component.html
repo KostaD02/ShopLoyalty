@@ -12,6 +12,16 @@
     </button>
   </div>
   @if (productsStream$ | async; as products) {
+    <section class="filter">
+      <mat-form-field appearance="outline">
+        <mat-label>Filter</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Ex. product name price or descirption"
+        />
+      </mat-form-field>
+    </section>
     <section class="products">
       @for (product of products; track product._id) {
         <mat-card class="card">
@@ -34,7 +44,7 @@
           </mat-card-content>
           <mat-card-actions class="actions">
             <button mat-button (click)="showInfo(product)">Info</button>
-            <button mat-button color="warn" (click)="editInfo(product)">
+            <button mat-button color="accent" (click)="editInfo(product)">
               Edit
             </button>
             <button
@@ -44,8 +54,14 @@
             >
               Generate QR
             </button>
+            <button mat-button color="warn" (click)="deleteProduct(product)">
+              Delete
+            </button>
           </mat-card-actions>
         </mat-card>
+      }
+      @if (products.length === 0) {
+        <p>Nothing to display</p>
       }
     </section>
   }

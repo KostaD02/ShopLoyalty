@@ -33,7 +33,7 @@ import { UtilsService } from '@app-shared/services';
   template: `
     <h2 mat-dialog-title>Generate QR code</h2>
     <mat-dialog-content>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Pick Item</mat-label>
         <mat-select [(value)]="selected">
           @for (product of products; track product) {
@@ -59,6 +59,10 @@ import { UtilsService } from '@app-shared/services';
       grid-template-columns: 1fr;
       gap: 10px;
       place-items: center;
+
+      mat-form-field {
+        padding: 10px 0 0;
+      }
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

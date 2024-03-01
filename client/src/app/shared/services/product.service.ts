@@ -12,10 +12,6 @@ import { Product, ProductDiscount } from '@app-shared/interfaces';
 })
 export class ProductService {
   private readonly httpClient = inject(HttpClient);
-  private readonly router = inject(Router);
-  private readonly sweetAlert = inject(SweetAlertService);
-  private readonly platform = inject(PLATFORM_ID);
-  private readonly isBrowser = isPlatformBrowser(this.platform);
   private readonly BACKEND_ENDPOINT = BACKEND_ENDPOINT;
 
   getAllProducts() {

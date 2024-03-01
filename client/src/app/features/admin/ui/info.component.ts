@@ -32,8 +32,8 @@ import { Product } from '@app-shared/interfaces';
         <mat-list-item role="listitem">
           Price: {{ product.price }}
         </mat-list-item>
-        <mat-list-item role="listitem"
-          >Unique id: {{ product._id }}
+        <mat-list-item role="listitem">
+          Unique id: {{ product._id }}
         </mat-list-item>
         <mat-divider></mat-divider>
         <div mat-subheader>Discounts</div>
@@ -46,6 +46,11 @@ import { Product } from '@app-shared/interfaces';
               Range: [{{ discount.range[0] }}, {{ discount.range[1] }}]
             </span>
             <span>| Discount: {{ discount.discountPercentage }} %</span>
+          </mat-list-item>
+        }
+        @if (product.productDiscount.length === 0) {
+          <mat-list-item role="listitem">
+            There isn't any discount
           </mat-list-item>
         }
       </mat-list>
