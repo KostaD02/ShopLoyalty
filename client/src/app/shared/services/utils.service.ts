@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FRONTEND_ENDPOINT } from '@app-shared/consts';
 
 @Injectable({
   providedIn: 'root',
@@ -19,5 +20,9 @@ export class UtilsService {
     link.href = image;
     link.click();
     link.remove();
+  }
+
+  generateUrlForQrCode(productID: string) {
+    return `${FRONTEND_ENDPOINT}/scan/product/${productID}`;
   }
 }

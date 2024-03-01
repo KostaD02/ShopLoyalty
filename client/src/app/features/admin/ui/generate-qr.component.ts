@@ -7,7 +7,7 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
-import { FRONTEND_ENDPOINT } from '@app-shared/consts';
+
 import { Product } from '@app-shared/interfaces';
 import { UtilsService } from '@app-shared/services';
 import { QrCodeModule } from 'ng-qrcode';
@@ -51,7 +51,7 @@ export class GenerateQrComponent {
   private readonly utilsService = inject(UtilsService);
   readonly product: Product = inject(DIALOG_DATA);
 
-  readonly url = `${FRONTEND_ENDPOINT}/scan/product/${this.product._id}`;
+  readonly url = this.utilsService.generateUrlForQrCode(this.product._id);
 
   download() {
     const canvas = document.querySelector('canvas') as HTMLCanvasElement;

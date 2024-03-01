@@ -15,6 +15,10 @@ export interface Product extends BaseProduct {
   productDiscount: ProductDiscount[];
 }
 
+export interface ProductWithUrl extends Product {
+  productUrl: string;
+}
+
 export interface PurchasedProducts extends BaseProduct {
   count: number;
 }

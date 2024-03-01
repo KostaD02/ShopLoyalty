@@ -11,9 +11,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { Product } from '@app-shared/interfaces';
-import { ProductService } from '@app-shared/services';
+import { ProductService, UtilsService } from '@app-shared/services';
 import { BehaviorSubject, tap } from 'rxjs';
-import { GenerateQrComponent, InfoComponent } from './ui';
+import {
+  GenerateQrAllComponent,
+  GenerateQrComponent,
+  InfoComponent,
+} from './ui';
 
 @Component({
   selector: 'app-admin',
@@ -28,6 +32,7 @@ export default class AdminComponent implements AfterViewInit {
   private readonly platform = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platform);
   private readonly dialog = inject(MatDialog);
+  private readonly utilsService = inject(UtilsService);
 
   private readonly products$ = new BehaviorSubject<Product[]>([]);
   readonly productsStream$ = this.products$.asObservable();
@@ -45,7 +50,14 @@ export default class AdminComponent implements AfterViewInit {
     }
   }
 
-  showModalForGeneration() {}
+  showModalForGeneration() {
+    this.dialog.open(GenerateQrAllComponent, {
+      data: this.products$.value.map((product) => ({
+        ...product,
+        productUrl: this.utilsService.generateUrlForQrCode(product._id),
+      })),
+    });
+  }
 
   addProduct() {}
 
