@@ -54,7 +54,11 @@
             >
               Generate QR
             </button>
-            <button mat-button color="warn" (click)="deleteProduct(product)">
+            <button
+              mat-button
+              color="warn"
+              (click)="deleteProduct(product, $index)"
+            >
               Delete
             </button>
           </mat-card-actions>

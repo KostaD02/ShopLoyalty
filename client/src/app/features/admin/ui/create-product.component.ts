@@ -102,7 +102,6 @@ import { catchError, of, tap } from 'rxjs';
       </form>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Close</button>
       <button
         mat-button
         color="primary"
@@ -111,6 +110,7 @@ import { catchError, of, tap } from 'rxjs';
       >
         Create
       </button>
+      <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
   `,
   styles: `
@@ -127,6 +127,12 @@ import { catchError, of, tap } from 'rxjs';
           width: 100%;
         }
       }
+    }
+    mat-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 5px;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

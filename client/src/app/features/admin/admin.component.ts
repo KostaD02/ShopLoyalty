@@ -103,8 +103,19 @@ export default class AdminComponent implements AfterViewInit {
     this.dialog.open(InfoComponent, { data: product });
   }
 
-  deleteProduct(produt: Product) {
-    this.dialog.open(DeleteProductComponent, { data: produt });
+  deleteProduct(produt: Product, index: number) {
+    this.dialog
+      .open(DeleteProductComponent, { data: produt })
+      .afterClosed()
+      .pipe(
+        tap((isDeleted) => {
+          if (isDeleted) {
+            this.products.splice(index, 1);
+            this.products$.next(this.products);
+          }
+        }),
+      )
+      .subscribe();
   }
 
   applyFilter(event: Event) {

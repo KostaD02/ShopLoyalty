@@ -49,8 +49,8 @@ import { UtilsService } from '@app-shared/services';
       <qr-code [value]="selected" size="250"></qr-code>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Close</button>
       <button mat-button color="primary" (click)="download()">Download</button>
+      <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
   `,
   styles: `
@@ -63,6 +63,12 @@ import { UtilsService } from '@app-shared/services';
       mat-form-field {
         padding: 10px 0 0;
       }
+    }
+    mat-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 5px;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

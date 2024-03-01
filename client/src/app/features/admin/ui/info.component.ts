@@ -73,6 +73,12 @@ import { Product } from '@app-shared/interfaces';
       gap: 10px;
       place-items: center;
     }
+    mat-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 5px;
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

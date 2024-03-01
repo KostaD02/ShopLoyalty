@@ -5,7 +5,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: ``,
-  styles: '',
+  styles: `
+    mat-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 5px;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditComponent {}

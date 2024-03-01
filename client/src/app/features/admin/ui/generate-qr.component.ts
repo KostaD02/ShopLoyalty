@@ -30,8 +30,8 @@ import { QrCodeModule } from 'ng-qrcode';
       <qr-code [value]="url" size="250"></qr-code>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Close</button>
       <button mat-button color="primary" (click)="download()">Download</button>
+      <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
   `,
   styles: `
@@ -43,6 +43,12 @@ import { QrCodeModule } from 'ng-qrcode';
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+    mat-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 5px;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
