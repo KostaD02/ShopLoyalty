@@ -10,9 +10,9 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Product, ProductWithUrl } from '@app-shared/interfaces';
-import { QrCodeModule } from 'ng-qrcode';
 import { MatSelectModule } from '@angular/material/select';
+import { QrCodeModule } from 'ng-qrcode';
+import { ProductWithUrl } from '@app-shared/interfaces';
 import { UtilsService } from '@app-shared/services';
 
 @Component({

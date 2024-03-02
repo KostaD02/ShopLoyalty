@@ -51,7 +51,7 @@ import { catchError, of, tap } from 'rxjs';
     <mat-dialog-content>
       <mat-tab-group dynamicHeight>
         <mat-tab label="Edit general data">
-          <form #signUpForm="ngForm" [formGroup]="productForm">
+          <form [formGroup]="productForm">
             <mat-form-field appearance="outline">
               <mat-label>Name</mat-label>
               <input

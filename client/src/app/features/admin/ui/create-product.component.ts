@@ -37,7 +37,7 @@ import { catchError, of, tap } from 'rxjs';
   template: `
     <h2 mat-dialog-title>Generate QR code</h2>
     <mat-dialog-content>
-      <form #signUpForm="ngForm" [formGroup]="productForm">
+      <form [formGroup]="productForm">
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
           <input
