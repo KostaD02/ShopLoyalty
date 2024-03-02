@@ -95,8 +95,19 @@ export default class AdminComponent implements AfterViewInit {
     this.dialog.open(GenerateQrComponent, { data: product });
   }
 
-  editInfo(product: Product) {
-    this.dialog.open(EditComponent, { data: product });
+  editInfo(product: Product, index: number) {
+    this.dialog
+      .open(EditComponent, { data: product })
+      .afterClosed()
+      .pipe(
+        tap((updatedProduct) => {
+          if (updatedProduct) {
+            this.products[index] = updatedProduct;
+            this.products$.next(this.products);
+          }
+        }),
+      )
+      .subscribe();
   }
 
   showInfo(product: Product) {

@@ -62,12 +62,7 @@ export class DeleteProductComponent {
           this.dialogRef.close(true);
         }),
         catchError((error) => {
-          const messages = error.error.messages;
-          if (messages.length === 1) {
-            this.sweetAlertService.displayToast(messages[0], 'error', 'red');
-          } else {
-            this.sweetAlertService.displayModal('error', 'Error', messages);
-          }
+          this.sweetAlertService.displayError(error);
           return of(false);
         }),
       )

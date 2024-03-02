@@ -33,7 +33,7 @@ export class ProductService {
     );
   }
 
-  updateProduct(product: Omit<Product, '_id' | 'productDiscount'>) {
+  updateProduct(product: Omit<Product, 'productDiscount'>) {
     return this.httpClient.patch<Product>(
       `${this.BACKEND_ENDPOINT}/product/update`,
       product,
@@ -42,7 +42,7 @@ export class ProductService {
 
   updateDiscount(product: Pick<Product, '_id' | 'productDiscount'>) {
     return this.httpClient.patch<Product>(
-      `${this.BACKEND_ENDPOINT}/product/update_discount`,
+      `${this.BACKEND_ENDPOINT}/product/update_discounts`,
       product,
     );
   }

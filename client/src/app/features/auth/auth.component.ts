@@ -81,12 +81,7 @@ export default class AuthComponent {
       .signIn(email, password)
       .pipe(
         catchError((error) => {
-          const messages = error.error.messages;
-          if (messages.length === 1) {
-            this.sweetAlert.displayToast(messages[0], 'error', 'red');
-          } else {
-            this.sweetAlert.displayModal('error', 'Error', messages);
-          }
+          this.sweetAlert.displayError(error);
           return of('Error');
         }),
       )
@@ -104,12 +99,7 @@ export default class AuthComponent {
       .signUp(name, lastName, email, password)
       .pipe(
         catchError((error) => {
-          const messages = error.error.messages;
-          if (messages.length === 1) {
-            this.sweetAlert.displayToast(messages[0], 'error', 'red');
-          } else {
-            this.sweetAlert.displayModal('error', 'Error', messages);
-          }
+          this.sweetAlert.displayError(error);
           return of('Error');
         }),
       )

@@ -35,4 +35,13 @@ export class SweetAlertService {
       text,
     });
   }
+
+  displayError(error: { error: { messages: string[] } }) {
+    const messages = error.error.messages;
+    if (messages.length === 1) {
+      this.displayToast(messages[0], 'error', 'red');
+    } else {
+      this.displayModal('error', 'Error', messages.join());
+    }
+  }
 }

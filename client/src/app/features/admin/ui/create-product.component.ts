@@ -16,6 +16,7 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { DEFAULT_IMAGE_URL } from '@app-shared/consts';
 import { Product } from '@app-shared/interfaces';
 import { ProductService, SweetAlertService } from '@app-shared/services';
 import { catchError, of, tap } from 'rxjs';
@@ -31,7 +32,6 @@ import { catchError, of, tap } from 'rxjs';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
     ReactiveFormsModule,
   ],
   template: `
@@ -150,13 +150,16 @@ export class CreateProductComponent {
     ]),
     imageSrc: new FormControl('', [
       Validators.required,
-      Validators.pattern('^(https?://)?([^s/]+/)*(.*?).(jpg|jpeg|png|gif)$'),
+      Validators.pattern('^(https?://).*$'),
     ]),
   });
 
-  create() {
+  async create() {
     const product = this.productForm.value as Omit<Product, '_id'>;
     product.productDiscount = [];
+    await fetch(product.imageSrc).catch((err) => {
+      product.imageSrc = DEFAULT_IMAGE_URL;
+    });
     this.productService
       .createProduct(product)
       .pipe(
@@ -165,12 +168,7 @@ export class CreateProductComponent {
           this.dialogRef.close(result);
         }),
         catchError((error) => {
-          const messages = error.error.messages;
-          if (messages.length === 1) {
-            this.sweetAlertService.displayToast(messages[0], 'error', 'red');
-          } else {
-            this.sweetAlertService.displayModal('error', 'Error', messages);
-          }
+          this.sweetAlertService.displayError(error);
           return of(false);
         }),
       )

@@ -101,13 +101,9 @@ export class ProductService {
       });
     });
 
-    if (!product.productDiscount) {
-      product.productDiscount = [];
-    }
-
-    const products = product.productDiscount
-      .concat(...updateProducts.productDiscount)
-      .sort((a, b) => a.range[0] - b.range[0]);
+    const products = updateProducts.productDiscount.sort(
+      (a, b) => a.range[0] - b.range[0],
+    );
 
     for (let i = 1; i < products.length; i++) {
       const prevItem = products[i - 1];

@@ -49,7 +49,14 @@ import { UtilsService } from '@app-shared/services';
       <qr-code [value]="selected" size="250"></qr-code>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button color="primary" (click)="download()">Download</button>
+      <button
+        [disabled]="!selected"
+        mat-button
+        color="primary"
+        (click)="download()"
+      >
+        Download
+      </button>
       <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
   `,
