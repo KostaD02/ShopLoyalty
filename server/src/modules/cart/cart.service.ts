@@ -133,6 +133,7 @@ export class CartService {
     productForCart.discountPercentage = discount;
     productForCart.name = product.name;
     productForCart.price = product.price;
+    productForCart.imageSrc = product.imageSrc;
     return productForCart as CartProducts;
   }
 
@@ -153,6 +154,7 @@ export class CartService {
         name: product.name,
         price: product.price,
         count: product.count,
+        imageSrc: product.imageSrc,
       });
     });
 

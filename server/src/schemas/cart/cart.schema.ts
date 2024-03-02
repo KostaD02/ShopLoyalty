@@ -14,6 +14,7 @@ export class Cart {
         name: { type: String },
         price: { type: Number },
         count: { type: Number },
+        imageSrc: { type: String },
         discountPercentage: { type: Number },
         _id: { type: String },
       },

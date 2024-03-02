@@ -2,6 +2,7 @@ export interface BaseProduct {
   _id: string;
   name: string;
   price: number;
+  imageSrc: string;
 }
 
 export interface ProductDiscount {
@@ -10,7 +11,6 @@ export interface ProductDiscount {
 }
 
 export interface Product extends BaseProduct {
-  imageSrc: string;
   description: string;
   productDiscount: ProductDiscount[];
 }

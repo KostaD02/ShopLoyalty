@@ -1,0 +1,76 @@
+@if (cart$ | async; as cart) {
+  <section class="cart">
+    <mat-dialog-actions>
+      <h2 mat-dialog-title>Cart</h2>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-dialog-actions>
+    <mat-dialog-content>
+      <mat-divider></mat-divider>
+      <p class="total">Total: {{ cart.total }} ₾</p>
+      <mat-divider></mat-divider>
+      @for (product of cart.products; track product) {
+        <div class="cart-item">
+          <div class="cart-header">
+            <div class="image">
+              <img [src]="product.imageSrc" [alt]="product.name + 'image'" />
+            </div>
+            <h3>
+              {{ product.name }}
+            </h3>
+          </div>
+          <h4>
+            @if (product.discountPercentage === 0) {
+              {{ product.price }} ₾
+            } @else {
+              <span class="line-through">
+                {{ product.price | discount: product.discountPercentage }}
+              </span>
+              <mat-icon>arrow_right_alt</mat-icon>
+              <span> {{ product.price }} ₾ </span>
+            }
+          </h4>
+          <div class="actions">
+            <div class="counter">
+              <button
+                mat-icon-button
+                [disabled]="disableButton"
+                (click)="decrementProductCart(product)"
+              >
+                -
+              </button>
+              <span> {{ product.count }} </span>
+              <button
+                mat-icon-button
+                [disabled]="disableButton"
+                (click)="incrementProductCart(product)"
+              >
+                +
+              </button>
+            </div>
+            <div class="delete">
+              <button
+                mat-icon-button
+                [disabled]="disableButton"
+                (click)="removeItemFromCart(product._id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      }
+    </mat-dialog-content>
+    <mat-dialog-actions class="checkout">
+      <button
+        mat-button
+        [disabled]="cart.products.length === 0"
+        (click)="checkout()"
+      >
+        Checkout
+      </button>
+    </mat-dialog-actions>
+  </section>
+}

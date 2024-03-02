@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {
   AFTER_AUTH_NAVIGATION,
@@ -16,6 +16,8 @@ import {
 } from '@app-shared/consts';
 import { AuthService, CartService } from '@app-shared/services';
 import { UserRole } from '@app-shared/enums';
+import { MatDialog } from '@angular/material/dialog';
+import { CartComponent } from '@app-shared/ui';
 
 @Component({
   selector: 'app-root',
@@ -39,6 +41,7 @@ export class AppComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly authService = inject(AuthService);
   private readonly cartService = inject(CartService);
+  private readonly dialog = inject(MatDialog);
 
   readonly user$ = this.authService.userStream$;
   readonly cart$ = this.cartService.cartStream$;
@@ -54,6 +57,24 @@ export class AppComponent {
       map((result) => result.matches),
       shareReplay(),
     );
+
+  readonly vm$ = combineLatest([this.isHandset$, this.user$, this.cart$]).pipe(
+    map(([isHandset, user, cart]) => ({
+      isHandset,
+      user,
+      cart,
+    })),
+  );
+
+  showCart() {
+    this.dialog.open(CartComponent, {
+      height: `100vh`,
+      width: `100%`,
+      maxWidth: `280px`,
+      position: { top: '0', right: '0' },
+      autoFocus: false,
+    });
+  }
 
   logOut() {
     this.authService.logOut();

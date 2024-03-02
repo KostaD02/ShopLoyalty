@@ -69,6 +69,7 @@ export default class AdminComponent implements AfterViewInit {
 
   showModalForGeneration() {
     this.dialog.open(GenerateQrAllComponent, {
+      autoFocus: false,
       data: this.products$.value.map((product) => ({
         ...product,
         productUrl: this.utilsService.generateUrlForQrCode(product._id),
@@ -78,7 +79,7 @@ export default class AdminComponent implements AfterViewInit {
 
   addProduct() {
     this.dialog
-      .open(CreateProductComponent)
+      .open(CreateProductComponent, { autoFocus: false })
       .afterClosed()
       .pipe(
         tap((result) => {
@@ -92,12 +93,12 @@ export default class AdminComponent implements AfterViewInit {
   }
 
   generateQrCode(product: Product) {
-    this.dialog.open(GenerateQrComponent, { data: product });
+    this.dialog.open(GenerateQrComponent, { data: product, autoFocus: false });
   }
 
   editInfo(product: Product, index: number) {
     this.dialog
-      .open(EditComponent, { data: product })
+      .open(EditComponent, { data: product, autoFocus: false })
       .afterClosed()
       .pipe(
         tap((updatedProduct) => {
@@ -111,12 +112,12 @@ export default class AdminComponent implements AfterViewInit {
   }
 
   showInfo(product: Product) {
-    this.dialog.open(InfoComponent, { data: product });
+    this.dialog.open(InfoComponent, { data: product, autoFocus: false });
   }
 
   deleteProduct(produt: Product, index: number) {
     this.dialog
-      .open(DeleteProductComponent, { data: produt })
+      .open(DeleteProductComponent, { data: produt, autoFocus: false })
       .afterClosed()
       .pipe(
         tap((isDeleted) => {

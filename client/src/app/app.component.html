@@ -1,29 +1,15 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    fixedInViewport
-    class="sidenav"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-  >
-    <mat-toolbar color="primary">Navigation</mat-toolbar>
-    <mat-nav-list>
-      @for (navigation of headerNavigation; track navigation) {
-        <a
-          mat-list-item
-          [routerLink]="navigation.path"
-          (click)="drawer.toggle()"
-        >
-          {{ navigation.title }}
-        </a>
-      }
-      @if (user$ | async; as user) {
-        @if (user.role === userRole.Admin) {
-          <a mat-list-item routerLink="/admin" (click)="drawer.toggle()">
-            Admin
-          </a>
-        }
-        @for (navigation of afterAuthNavigation; track navigation) {
+@if (vm$ | async; as vm) {
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      #drawer
+      fixedInViewport
+      class="sidenav"
+      [attr.role]="vm.isHandset ? 'dialog' : 'navigation'"
+      [mode]="vm.isHandset ? 'over' : 'side'"
+    >
+      <mat-toolbar color="primary">Navigation</mat-toolbar>
+      <mat-nav-list>
+        @for (navigation of headerNavigation; track navigation) {
           <a
             mat-list-item
             [routerLink]="navigation.path"
@@ -32,77 +18,63 @@
             {{ navigation.title }}
           </a>
         }
-        <a mat-list-item routerLink="/" (click)="logOut(); drawer.toggle()">
-          Log out
-        </a>
-      } @else {
-        @for (navigation of beforeAuthNavigation; track navigation) {
-          <a
-            mat-list-item
-            [routerLink]="navigation.path"
-            (click)="drawer.toggle()"
-          >
-            {{ navigation.title }}
-          </a>
-        }
-      }
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content ngSkipHydration>
-    <mat-toolbar color="primary">
-      @if (isHandset$ | async) {
-        <button
-          mat-icon-button
-          type="button"
-          aria-label="Toggle sidenav"
-          (click)="drawer.toggle()"
-        >
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-      }
-      <a mat-button class="nav-item brand" routerLink="">ShopLoyalty</a>
-      <span class="fill"></span>
-      @if (!(isHandset$ | async)) {
-        <nav>
-          @for (navigation of headerNavigation; track navigation) {
+        @if (vm.user; as user) {
+          @if (user.role === userRole.Admin) {
+            <a mat-list-item routerLink="/admin" (click)="drawer.toggle()">
+              Admin
+            </a>
+          }
+          @for (navigation of afterAuthNavigation; track navigation) {
             <a
-              mat-button
-              class="nav-item"
-              routerLinkActive="item-selected"
+              mat-list-item
               [routerLink]="navigation.path"
-              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="drawer.toggle()"
             >
               {{ navigation.title }}
             </a>
           }
-          @if (user$ | async; as user) {
-            @if (user.role === userRole.Admin) {
-              <a
-                mat-button
-                class="nav-item"
-                routerLinkActive="item-selected"
-                routerLink="/admin"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                Admin
-              </a>
-            }
-            @for (navigation of afterAuthNavigation; track navigation) {
-              <a
-                mat-button
-                class="nav-item"
-                routerLinkActive="item-selected"
-                [routerLink]="navigation.path"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                {{ navigation.title }}
-              </a>
-            }
-            <a mat-button class="nav-item" routerLink="/" (click)="logOut()">
-              Log out
+          <a mat-list-item routerLink="/" (click)="logOut(); drawer.toggle()">
+            Log out
+          </a>
+        } @else {
+          @for (navigation of beforeAuthNavigation; track navigation) {
+            <a
+              mat-list-item
+              [routerLink]="navigation.path"
+              (click)="drawer.toggle()"
+            >
+              {{ navigation.title }}
             </a>
-          } @else {
-            @for (navigation of beforeAuthNavigation; track navigation) {
+          }
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        @if (vm.isHandset) {
+          <button
+            mat-icon-button
+            type="button"
+            aria-label="Toggle sidenav"
+            (click)="drawer.toggle()"
+          >
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          </button>
+        }
+        <a mat-button class="nav-item brand" routerLink=""> ShopLoyalty </a>
+        @if (vm.cart) {
+          <button
+            mat-icon-button
+            aria-label="Shoping cart"
+            (click)="showCart()"
+          >
+            <mat-icon>shopping_cart</mat-icon>
+          </button>
+        }
+        <span class="fill"></span>
+        @if (!vm.isHandset) {
+          <nav>
+            @for (navigation of headerNavigation; track navigation) {
               <a
                 mat-button
                 class="nav-item"
@@ -113,12 +85,51 @@
                 {{ navigation.title }}
               </a>
             }
-          }
-        </nav>
-      }
-    </mat-toolbar>
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+            @if (vm.user; as user) {
+              @if (user.role === userRole.Admin) {
+                <a
+                  mat-button
+                  class="nav-item"
+                  routerLinkActive="item-selected"
+                  routerLink="/admin"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  Admin
+                </a>
+              }
+              @for (navigation of afterAuthNavigation; track navigation) {
+                <a
+                  mat-button
+                  class="nav-item"
+                  routerLinkActive="item-selected"
+                  [routerLink]="navigation.path"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  {{ navigation.title }}
+                </a>
+              }
+              <a mat-button class="nav-item" routerLink="/" (click)="logOut()">
+                Log out
+              </a>
+            } @else {
+              @for (navigation of beforeAuthNavigation; track navigation) {
+                <a
+                  mat-button
+                  class="nav-item"
+                  routerLinkActive="item-selected"
+                  [routerLink]="navigation.path"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  {{ navigation.title }}
+                </a>
+              }
+            }
+          </nav>
+        }
+      </mat-toolbar>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+}
