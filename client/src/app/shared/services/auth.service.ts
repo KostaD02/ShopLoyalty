@@ -194,21 +194,18 @@ export class AuthService {
   }
 
   canAuth() {
-    if (this.isBrowser) {
-      const accessToken = this.accessToken;
-      const refreshToken = this.refreshToken;
-      if (accessToken || refreshToken) {
-        if (!refreshToken || !accessToken) {
-          this.removeTokens();
-          return true;
-        } else {
-          return false;
-        }
-      } else {
+    const accessToken = this.accessToken;
+    const refreshToken = this.refreshToken;
+    if (accessToken || refreshToken) {
+      if (!refreshToken || !accessToken) {
+        this.removeTokens();
         return true;
+      } else {
+        return false;
       }
+    } else {
+      return true;
     }
-    return true;
   }
 
   canActivateAdmin() {

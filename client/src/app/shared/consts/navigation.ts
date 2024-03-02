@@ -9,14 +9,6 @@ export const DEFAULT_HEADER_NAVIGATION: Navigation[] = [
     title: 'Scanner',
     path: 'scanner',
   },
-  {
-    title: 'About us',
-    path: 'about-us',
-  },
-  {
-    title: 'Contact',
-    path: 'contact',
-  },
 ];
 
 export const AFTER_AUTH_NAVIGATION: Navigation[] = [

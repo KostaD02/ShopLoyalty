@@ -1,0 +1,44 @@
+.result {
+  width: 100%;
+  height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    max-width: 400px;
+
+    mat-card-title {
+      margin-bottom: 12px;
+    }
+
+    img {
+      height: 200px;
+      object-fit: contain;
+      padding: 5px 0;
+    }
+
+    p {
+      text-align: center;
+      margin: 12px 0;
+    }
+
+    .actions {
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+
+  .no-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+
+    p {
+      margin: 0;
+      font-size: 20px;
+    }
+  }
+}

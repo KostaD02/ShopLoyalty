@@ -24,6 +24,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-admin',
@@ -36,6 +38,7 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    MatIconModule,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
@@ -43,15 +46,19 @@ import { MatInputModule } from '@angular/material/input';
 })
 export default class AdminComponent implements AfterViewInit {
   private readonly productService = inject(ProductService);
-  private readonly platform = inject(PLATFORM_ID);
-  private readonly isBrowser = isPlatformBrowser(this.platform);
   private readonly dialog = inject(MatDialog);
   private readonly utilsService = inject(UtilsService);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly platform = inject(PLATFORM_ID);
+  private readonly isBrowser = isPlatformBrowser(this.platform);
 
   private readonly products: Product[] = [];
 
   private readonly products$ = new BehaviorSubject<Product[]>([]);
   readonly productsStream$ = this.products$.asObservable();
+
+  searchValue = this.activatedRoute.snapshot.queryParams['search'] || '';
 
   ngAfterViewInit(): void {
     if (this.isBrowser) {
@@ -61,6 +68,8 @@ export default class AdminComponent implements AfterViewInit {
           tap((products) => {
             this.products$.next(products);
             this.products.push(...products);
+            this.applyFilter();
+            this.router.navigate([], { replaceUrl: true });
           }),
         )
         .subscribe();
@@ -130,10 +139,8 @@ export default class AdminComponent implements AfterViewInit {
       .subscribe();
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-      .trim()
-      .toLowerCase();
+  applyFilter() {
+    const filterValue = this.searchValue.trim().toLowerCase();
 
     if (filterValue === '') {
       this.products$.next(this.products);

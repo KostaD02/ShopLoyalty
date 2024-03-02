@@ -1,0 +1,41 @@
+<section class="result">
+  @if (isBrowser) {
+    @if (currentProduct$ | async; as product) {
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>{{ product.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <img
+          mat-card-image
+          [src]="product.imageSrc"
+          [alt]="product.name + ' image'"
+        />
+        <mat-card-content>
+          <mat-divider></mat-divider>
+          <p>
+            {{ product.description }}
+          </p>
+          <mat-divider></mat-divider>
+          <p>{{ product.price }} GEL</p>
+        </mat-card-content>
+        <mat-card-actions class="actions">
+          <button mat-button color="primary" (click)="addToCart(product)">
+            Add to cart
+          </button>
+          @if ((user$ | async)?.role === userRole.Admin) {
+            <button mat-button (click)="showInfo(product)">Info</button>
+            <button mat-button color="warn" (click)="editInfo(product)">
+              Edit
+            </button>
+          }
+        </mat-card-actions>
+      </mat-card>
+    } @else {
+      <div class="no-result">
+        <p>No result</p>
+        <ngx-cube-loader></ngx-cube-loader>
+      </div>
+    }
+  }
+</section>

@@ -22,6 +22,10 @@ export class CartService {
   private readonly cart$ = new BehaviorSubject<Cart | null>(null);
   readonly cartStream$ = this.cart$.asObservable();
 
+  get cart() {
+    return this.cart$.value;
+  }
+
   constructor() {
     this.init();
   }

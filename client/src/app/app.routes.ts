@@ -13,14 +13,9 @@ export const routes: Routes = [
     title: 'Scan QR code',
   },
   {
-    path: 'about-us',
-    loadComponent: () => import('./features/about-us/about-us.component'),
-    title: 'About us',
-  },
-  {
-    path: 'contact',
-    loadComponent: () => import('./features/contact/contact.component'),
-    title: 'Contact',
+    path: 'scan/product/:id',
+    loadComponent: () => import('./features/scan-result/scan-result.component'),
+    title: 'Scan result',
   },
   {
     path: 'auth',
