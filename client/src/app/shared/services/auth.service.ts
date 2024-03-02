@@ -14,7 +14,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, catchError, filter, of, tap } from 'rxjs';
 
 import { BACKEND_ENDPOINT } from '@app-shared/consts';
-import { JwtResponse, User } from '@app-shared/interfaces';
+import { BaseUser, JwtResponse, User } from '@app-shared/interfaces';
 import { SweetAlertService } from './sweet-alert.service';
 
 @Injectable({
@@ -43,6 +43,10 @@ export class AuthService {
 
   get user() {
     return this.user$.value;
+  }
+
+  set user(user: User | null) {
+    this.user$.next(user);
   }
 
   constructor() {
@@ -98,6 +102,20 @@ export class AuthService {
           this.router.navigateByUrl('/');
         }),
       );
+  }
+
+  updatUser(user: Omit<BaseUser, 'password'>) {
+    return this.httpClient.patch<User>(
+      `${this.BACKEND_ENDPOINT}/auth/update`,
+      user,
+    );
+  }
+
+  updatePassword(passwords: { oldPassword: string; newPassword: string }) {
+    return this.httpClient.patch<JwtResponse>(
+      `${this.BACKEND_ENDPOINT}/auth/change_password`,
+      passwords,
+    );
   }
 
   checkUser() {

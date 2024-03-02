@@ -1,1 +1,125 @@
-<p>settings works!</p>
+<section class="wrapper">
+  <mat-tab-group dynamicHeight (selectedTabChange)="tabChanged()">
+    <mat-tab label="General">
+      <form #generalForm="ngForm" [formGroup]="updateForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Ex. Konstantine"
+            formControlName="name"
+          />
+          @if (getUpdateFormValue("name", "required")) {
+            <mat-error> Name required </mat-error>
+          }
+          @if (getUpdateFormValue("name", "minlength")) {
+            <mat-error> Minimum 2 char </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Last name</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Ex. Datunishvili"
+            formControlName="lastName"
+          />
+          @if (getUpdateFormValue("lastName", "required")) {
+            <mat-error> Last name required </mat-error>
+          }
+          @if (getUpdateFormValue("lastName", "minlength")) {
+            <mat-error> Minimum 2 char </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            placeholder="Ex. kosta@example.com"
+            formControlName="email"
+          />
+          @if (getUpdateFormValue("email", "required")) {
+            <mat-error> Email required </mat-error>
+          }
+          @if (getUpdateFormValue("email", "email")) {
+            <mat-error> Email incorrect </mat-error>
+          }
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="updateUser()"
+          [disabled]="!generalForm.valid || !generalForm.touched"
+        >
+          Update
+        </button>
+      </form>
+    </mat-tab>
+    <mat-tab label="Password">
+      <form #passwordUpForm="ngForm" [formGroup]="passwordForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Old password</mat-label>
+          <input
+            [type]="hidePasswordSignIn ? 'password' : 'text'"
+            matInput
+            placeholder="Strong password"
+            formControlName="oldPassword"
+          />
+          <mat-icon
+            color="primary"
+            matSuffix
+            (click)="hidePasswordSignIn = !hidePasswordSignIn"
+            >{{
+              hidePasswordSignIn ? "visibility_off" : "visibility"
+            }}</mat-icon
+          >
+          @if (getPasswordFormValue("oldPassword", "required")) {
+            <mat-error> Old password required </mat-error>
+          }
+          @if (getPasswordFormValue("oldPassword", "minlength")) {
+            <mat-error> Minimum 8 char </mat-error>
+          }
+          @if (getPasswordFormValue("oldPassword", "maxlength")) {
+            <mat-error> Maximum 22 char </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>New password</mat-label>
+          <input
+            [type]="hidePasswordSignIn ? 'password' : 'text'"
+            matInput
+            placeholder="Strong password"
+            formControlName="newPassword"
+          />
+          <mat-icon
+            color="primary"
+            matSuffix
+            (click)="hidePasswordSignIn = !hidePasswordSignIn"
+            >{{
+              hidePasswordSignIn ? "visibility_off" : "visibility"
+            }}</mat-icon
+          >
+          @if (getPasswordFormValue("newPassword", "required")) {
+            <mat-error> New password required </mat-error>
+          }
+          @if (getPasswordFormValue("newPassword", "minlength")) {
+            <mat-error> Minimum 8 char </mat-error>
+          }
+          @if (getPasswordFormValue("oldPassword", "maxlength")) {
+            <mat-error> Maximum 22 char </mat-error>
+          }
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="updatePassword()"
+          [disabled]="!passwordUpForm.valid"
+        >
+          Update
+        </button>
+      </form>
+    </mat-tab>
+  </mat-tab-group>
+</section>
