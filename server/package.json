@@ -1,10 +1,20 @@
 {
   "name": "shop-loyalty",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "description": "Loyalty application for shops",
+  "author": "Konstantine Datunishvili",
+  "type": "module",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KostaD02/ShopLoyalty/issues"
+  },
+  "contributors": [
+    {
+      "name": "Konstantine Datunishvili",
+      "email": "info@konstantinedatunishvili.com",
+      "url": "https://konstantinedatunishvili.com"
+    }
+  ],
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
