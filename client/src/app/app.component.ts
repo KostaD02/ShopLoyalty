@@ -14,7 +14,7 @@ import {
   BEFORE_AUTH_NAVIGATION,
   DEFAULT_HEADER_NAVIGATION,
 } from '@app-shared/consts';
-import { AuthService } from '@app-shared/services';
+import { AuthService, CartService } from '@app-shared/services';
 import { UserRole } from '@app-shared/enums';
 
 @Component({
@@ -38,8 +38,10 @@ import { UserRole } from '@app-shared/enums';
 export class AppComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly authService = inject(AuthService);
+  private readonly cartService = inject(CartService);
 
-  user$ = this.authService.userStream$;
+  readonly user$ = this.authService.userStream$;
+  readonly cart$ = this.cartService.cartStream$;
 
   readonly userRole = UserRole;
   readonly headerNavigation = DEFAULT_HEADER_NAVIGATION;

@@ -41,6 +41,10 @@ export class AuthService {
     return localStorage.getItem(LocalStorageKeys.REFRESH_TOKEN);
   }
 
+  get user() {
+    return this.user$.value;
+  }
+
   constructor() {
     this.init();
   }
