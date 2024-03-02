@@ -17,7 +17,25 @@
             {{ product.description }}
           </p>
           <mat-divider></mat-divider>
-          <p>{{ product.price }} GEL</p>
+          @if (currentCartItem$ | async; as currentCartItem) {
+            <p class="price">
+              @if (currentCartItem.discountPercentage === 0) {
+                {{ currentCartItem.price }} ₾
+              } @else {
+                <span class="line-through">
+                  {{
+                    currentCartItem.price
+                      | discount: currentCartItem.discountPercentage
+                  }}
+                </span>
+                <mat-icon>arrow_right_alt</mat-icon>
+                <span> {{ product.price }} ₾ </span>
+              }
+            </p>
+          } @else {
+            <p>{{ product.price }}</p>
+          }
+          <mat-divider></mat-divider>
         </mat-card-content>
         <mat-card-actions class="actions">
           <button mat-button color="primary" (click)="addToCart(product)">

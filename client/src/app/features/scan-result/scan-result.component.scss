@@ -21,6 +21,17 @@
     p {
       text-align: center;
       margin: 12px 0;
+
+      &.price {
+        line-height: normal;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .line-through {
+          text-decoration: line-through;
+        }
+      }
     }
 
     .actions {

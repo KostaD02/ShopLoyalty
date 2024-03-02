@@ -21,8 +21,10 @@ import {
 } from '@app-shared/services';
 
 import { NgxCubeLoaderComponent } from 'ngx-cube-loader';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, map, of, tap } from 'rxjs';
 import { InfoComponent } from '../admin/ui';
+import { DiscountPipe } from '@app-shared/pipes';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-scan-result',
@@ -31,8 +33,10 @@ import { InfoComponent } from '../admin/ui';
     MatButtonModule,
     MatCardModule,
     MatDividerModule,
+    MatIconModule,
     NgxCubeLoaderComponent,
     AsyncPipe,
+    DiscountPipe,
   ],
   templateUrl: './scan-result.component.html',
   styleUrl: './scan-result.component.scss',
@@ -52,6 +56,13 @@ export default class ScanResultComponent implements OnInit {
   readonly userRole = UserRole;
 
   readonly user$ = this.authService.userStream$;
+  readonly currentCartItem$ = this.cartService.cartStream$.pipe(
+    map((cart) =>
+      cart?.products.find(
+        (item) => item._id === this.activatedRoute.snapshot.params['id'],
+      ),
+    ),
+  );
   readonly currentProduct$ = this.productService
     .productById(this.activatedRoute.snapshot.params['id'])
     .pipe(
