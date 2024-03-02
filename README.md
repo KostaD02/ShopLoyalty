@@ -30,4 +30,4 @@ unparalleled satisfaction.
 
 ## License
 
-ngx-cube-loader is [MIT licensed](https://github.com/KostaD02/ShopLoyalty/blob/main/LICENSE)
+ShopLoyalty is [MIT licensed](https://github.com/KostaD02/ShopLoyalty/blob/main/LICENSE)
