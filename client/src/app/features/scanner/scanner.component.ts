@@ -5,6 +5,9 @@ import {
   PLATFORM_ID,
   inject,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FRONTEND_ENDPOINT } from '@app-shared/consts';
+import { SweetAlertService } from '@app-shared/services';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { BehaviorSubject } from 'rxjs';
 
@@ -17,6 +20,8 @@ import { BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ScannerComponent {
+  private readonly sweetAlertService = inject(SweetAlertService);
+  private readonly router = inject(Router);
   private readonly platform = inject(PLATFORM_ID);
   readonly isBrowser = isPlatformBrowser(this.platform);
 
@@ -24,7 +29,18 @@ export default class ScannerComponent {
   readonly isAgreed$ = this.agreed$.asObservable();
 
   onSuccess(result: string) {
-    console.log(result);
+    const url = result.split(FRONTEND_ENDPOINT).slice(1).pop() || '';
+    const regexUrl = /^\/scan\/product\/[A-Za-z0-9_\-]+$/;
+    if (!regexUrl.test(url)) {
+      this.sweetAlertService.displayModal(
+        'warning',
+        'Incorrect QR code',
+        'QR code must be generated from our website :)',
+      );
+      return;
+    }
+
+    this.router.navigateByUrl(url);
   }
 
   onPermission(agreed: boolean) {
