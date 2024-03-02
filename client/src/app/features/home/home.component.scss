@@ -1,0 +1,45 @@
+section.wrapper {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+  place-items: center;
+
+  h1 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 500;
+    margin: 16px 0;
+  }
+
+  article {
+    max-width: 1080px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+
+    p {
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  section.contact {
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 2px 4px;
+    border-radius: 3px;
+
+    h3 {
+      text-align: center;
+      font-size: 20px;
+    }
+  }
+}

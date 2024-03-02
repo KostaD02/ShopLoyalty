@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { TitleStrategy, provideRouter } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
@@ -12,6 +12,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { LocalStorageKeys } from '@app-shared/enums';
 import { BACKEND_ENDPOINT_DOMAIN } from './shared';
 import { routes } from './app.routes';
+import { AppTitleStrategy } from '@app-shared/services';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,5 +29,9 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     ),
+    {
+      provide: TitleStrategy,
+      useClass: AppTitleStrategy,
+    },
   ],
 };
