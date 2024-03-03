@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { BACKEND_ENDPOINT } from '@app-shared/consts';
 import { Cart, CartCheckout, CartProduct } from '@app-shared/interfaces';

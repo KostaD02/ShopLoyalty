@@ -23,8 +23,12 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       JwtModule.forRoot({
         config: {
-          tokenGetter: () =>
-            localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN),
+          tokenGetter: () => {
+            if (localStorage) {
+              return localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+            }
+            return null;
+          },
           allowedDomains: [BACKEND_ENDPOINT_DOMAIN],
         },
       }),
