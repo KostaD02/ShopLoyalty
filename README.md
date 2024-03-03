@@ -28,6 +28,10 @@ unparalleled satisfaction.
 
 <img style="display: block; margin: auto" src="./client/src/assets/qr_code.png" alt="QR code of author" />
 
+## Deploys
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4044dc12-1683-463a-b45b-9396b40b3836/deploy-status)](https://app.netlify.com/sites/shoployalty/deploys)
+
 ## License
 
 ShopLoyalty is [MIT licensed](https://github.com/KostaD02/ShopLoyalty/blob/main/LICENSE)
