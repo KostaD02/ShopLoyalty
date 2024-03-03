@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Loyalty application for shops",
   "author": "Konstantine Datunishvili",
-  "type": "module",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/KostaD02/ShopLoyalty/issues"
