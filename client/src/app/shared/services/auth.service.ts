@@ -1,6 +1,7 @@
 import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
+  ActivatedRoute,
   ActivatedRouteSnapshot,
   CanActivateFn,
   NavigationEnd,
@@ -23,6 +24,7 @@ import { SweetAlertService } from './sweet-alert.service';
 export class AuthService {
   private readonly httpClient = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
   private readonly sweetAlert = inject(SweetAlertService);
   private readonly jwtHelperSerivce = inject(JwtHelperService);
   private readonly ngZone = inject(NgZone);
@@ -99,7 +101,11 @@ export class AuthService {
             response.refresh_token,
           );
           this.user$.next(this.decodeToken(response.access_token));
-          this.router.navigateByUrl('/');
+          const redirect =
+            this.activatedRoute.snapshot.queryParams['redirectToItem'] || '';
+          this.router.navigateByUrl(
+            `/${redirect ? `scan/product/${redirect}` : ''}`,
+          );
         }),
       );
   }

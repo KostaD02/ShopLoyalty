@@ -74,12 +74,18 @@ export default class ScanResultComponent implements OnInit {
 
   ngOnInit() {
     if (this.isBrowser) {
-      !this.authService.canActivate() &&
+      if (this.authService.isTokenExpired()) {
+        this.router.navigate(['auth'], {
+          queryParams: {
+            redirectToItem: this.activatedRoute.snapshot.params['id'],
+          },
+        });
         this.sweetAlertService.displayToast(
           'You need to be authorized',
           'info',
           '#3f51b5',
         );
+      }
     }
   }
 
