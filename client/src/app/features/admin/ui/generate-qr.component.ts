@@ -25,7 +25,7 @@ import { QrCodeModule } from 'ng-qrcode';
   ],
   template: `
     <h2 mat-dialog-title>Generated QR code</h2>
-    <h4>{{ product.name }}</h4>
+    <h4 mat-dialog-title>{{ product.name }}</h4>
     <mat-dialog-content>
       <qr-code [value]="url" size="250"></qr-code>
     </mat-dialog-content>
