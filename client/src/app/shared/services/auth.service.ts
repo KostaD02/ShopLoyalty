@@ -57,36 +57,8 @@ export class AuthService {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        tap((event) => {
+        tap(() => {
           this.checkUser();
-          /*
-            Becouse of SSR can't provide guards by default way.
-            Bad way to use guards but will update after find better
-            solution (maybe localStorage should be switched by cookie)
-          */
-          if (this.isBrowser) {
-            const url = (event as NavigationEnd).url.slice(1);
-            switch (url) {
-              case 'auth': {
-                if (!this.canAuth()) {
-                  this.router.navigateByUrl('/');
-                }
-                break;
-              }
-              case 'admin': {
-                if (!this.canActivateAdmin()) {
-                  this.router.navigateByUrl('/404');
-                }
-                break;
-              }
-              case 'settings': {
-                if (!this.canActivate()) {
-                  this.router.navigateByUrl('/404');
-                }
-                break;
-              }
-            }
-          }
         }),
       )
       .subscribe();
@@ -245,8 +217,10 @@ export class AuthService {
     if (accessToken || refreshToken) {
       if (!refreshToken || !accessToken) {
         this.removeTokens();
+        this.router.navigateByUrl('/');
         return true;
       } else {
+        this.router.navigateByUrl('/');
         return false;
       }
     } else {
@@ -264,6 +238,7 @@ export class AuthService {
       if (decoded?.role === UserRole.Admin) {
         return true;
       } else {
+        this.router.navigateByUrl('/');
         return false;
       }
     }
