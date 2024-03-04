@@ -23,13 +23,16 @@
                 {{ currentCartItem.price }} ₾
               } @else {
                 <span class="line-through">
+                  {{ product.price }}
+                </span>
+                <mat-icon>arrow_right_alt</mat-icon>
+                <span>
                   {{
                     currentCartItem.price
                       | discount: currentCartItem.discountPercentage
                   }}
+                  ₾
                 </span>
-                <mat-icon>arrow_right_alt</mat-icon>
-                <span> {{ product.price }} ₾ </span>
               }
             </p>
           } @else {
