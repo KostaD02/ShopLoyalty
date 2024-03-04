@@ -19,7 +19,7 @@
           matInput
           placeholder="Ex. product name price or descirption"
           [(ngModel)]="searchValue"
-          (keyup)="applyFilter()"
+          (change)="applyFilter()"
         />
         <button
           matSuffix

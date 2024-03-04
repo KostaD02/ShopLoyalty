@@ -1,4 +1,5 @@
-export const FRONTEND_ENDPOINT_DOMAIN = 'shoployalty-kd.web.app';
+export const FRONTEND_ENDPOINT_DOMAIN =
+  'shoployalty.konstantinedatunishvili.com';
 export const FRONTEND_ENDPOINT = `https://${FRONTEND_ENDPOINT_DOMAIN}`;
 
 export const DEFAULT_IMAGE_URL = `${FRONTEND_ENDPOINT}/assets/default_image.jpg`;
