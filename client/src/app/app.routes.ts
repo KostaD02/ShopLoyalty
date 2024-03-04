@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { canAuth } from '@app-shared/services';
+import { canActivate, canActivateAdmin, canAuth } from '@app-shared/services';
 
 export const routes: Routes = [
   {
@@ -21,16 +21,19 @@ export const routes: Routes = [
     path: 'auth',
     title: 'Auth',
     loadComponent: () => import('./features/auth/auth.component'),
+    canActivate: [canAuth],
   },
   {
     path: 'settings',
     title: 'Settings',
     loadComponent: () => import('./features/settings/settings.component'),
+    canActivate: [canActivate],
   },
   {
     path: 'admin',
     title: 'Admin',
     loadComponent: () => import('./features/admin/admin.component'),
+    canActivate: [canActivateAdmin],
   },
   {
     path: '404',
