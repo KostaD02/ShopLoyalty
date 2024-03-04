@@ -35,7 +35,7 @@ import { catchError, of, tap } from 'rxjs';
     ReactiveFormsModule,
   ],
   template: `
-    <h2 mat-dialog-title>Generate QR code</h2>
+    <h2 mat-dialog-title>Create product</h2>
     <mat-dialog-content>
       <form [formGroup]="productForm">
         <mat-form-field appearance="outline">
