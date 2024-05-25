@@ -423,11 +423,12 @@ export class EditComponent implements OnInit {
       });
     });
 
-    if (isSame) {
-      this.sweetAlertService.displayToast('Nothing changed', 'error', 'red');
-      this.dialogRef.close();
-      return;
-    }
+    // TODO: fix detect change
+    // if (isSame) {
+    //   this.sweetAlertService.displayToast('Nothing changed', 'error', 'red');
+    //   this.dialogRef.close();
+    //   return;
+    // }
 
     const products = productDiscount.sort((a, b) => a.range[0] - b.range[0]);
 
